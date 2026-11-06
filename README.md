@@ -20,7 +20,7 @@ Vamos a usar **HumAID** (Alam, Qazi, Imran y Ofli, *HumAID: Human-Annotated Disa
 * **Idioma:** inglés.
 * **Anotación:** manual, por crowdworkers en Amazon Mechanical Turk. Cada tweet tiene una sola etiqueta humanitaria.
 * **Campos:** `tweet_text` (el texto del tweet) y `class_label` (la categoría).
-* **Categorías (11 según la documentación oficial):**
+* **Categorías (11 según la documentación oficial, pero los datos traen 10: `Don't know, can't judge` no aparece):**
   1. Caution and advice (precauciones y consejos)
   2. Displaced people and evacuations (desplazados y evacuaciones)
   3. Don't know, can't judge (no se puede juzgar)
@@ -32,6 +32,16 @@ Vamos a usar **HumAID** (Alam, Qazi, Imran y Ofli, *HumAID: Human-Annotated Disa
   9. Requests or urgent needs (solicitudes o necesidades urgentes)
   10. Rescue, volunteering, or donation effort (rescate, voluntariado y donaciones)
   11. Sympathy and support (simpatía y apoyo)
+
+## Primeros pasos
+Usamos [`QCRI/HumAID-events`](https://huggingface.co/datasets/QCRI/HumAID-events) (los mismos tweets, separados por desastre) para poder reservar desastres completos. Protocolo, conjuntos y decisiones de limpieza en [`docs/protocolo-experimental.md`](docs/protocolo-experimental.md).
+
+Desde la raíz del repo:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/prepare_data.py   # descarga y construye los conjuntos
+```
 
 ## Extensión al Español y al Contexto Colombiano
 HumAID está compuesto únicamente por tweets en inglés de desastres ocurridos en otros países, mientras que el contexto que nos interesa es el colombiano, donde la información se publica en español y con expresiones, nombres de lugares y formas de reportar propias de la región.
