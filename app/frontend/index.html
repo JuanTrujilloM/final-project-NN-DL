@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>X | Señales humanitarias</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="left-sidebar">
+        <a class="wordmark" href="#inicio" aria-label="X inicio"><img class="wordmark-logo" src="/x.png" alt="X"><span class="sr-only">X</span></a>
+        <nav class="main-nav" aria-label="Navegación">
+          <a class="nav-item active" href="#inicio"><span class="nav-icon">⌂</span><span>Home</span></a>
+          <a class="nav-item" href="#explorar"><span class="nav-icon">⌕</span><span>Explore</span></a>
+          <a class="nav-item" href="#notificaciones"><span class="nav-icon">♧</span><span>Notifications</span><b class="nav-badge">3</b></a>
+          <a class="nav-item" href="#seguir"><span class="nav-icon">♙</span><span>Follow</span></a>
+          <a class="nav-item" href="#chat"><span class="nav-icon">◯</span><span>Chat</span></a>
+          <a class="nav-item" href="#llamadas"><span class="nav-icon">♧</span><span>Calls</span></a>
+          <a class="nav-item" href="#grok"><span class="nav-icon">◉</span><span>Grok</span></a>
+          <a class="nav-item" href="#historial"><span class="nav-icon">▱</span><span>History</span></a>
+          <a class="nav-item" href="#creator"><span class="nav-icon">➤</span><span>Creator Studio</span></a>
+          <a class="nav-item" href="#premium"><span class="nav-icon">✿</span><span>Premium</span></a>
+          <a class="nav-item" href="#perfil"><span class="nav-icon">♙</span><span>Profile</span></a>
+          <a class="nav-item" href="#mas"><span class="nav-icon">•••</span><span>More</span></a>
+        </nav>
+        <button class="sidebar-action" type="button" data-scroll-to="compose">Post</button>
+        <div class="profile-mini">
+          <div class="avatar avatar-blue">AN</div>
+          <div><strong>Analista X</strong><small>@analisis_local</small></div>
+          <span class="more-icon">•••</span>
+        </div>
+      </aside>
+
+      <main class="timeline" id="inicio">
+        <div class="timeline-tabs">
+          <button class="tab active" type="button">Para ti</button>
+          <button class="tab" type="button">Colombia</button>
+          <button class="tab" type="button">Humanitario</button>
+          <button class="tab" type="button">Emergencias</button>
+          <button class="tab tab-add" type="button" aria-label="Agregar pestaña">＋</button>
+        </div>
+
+        <section class="composer" id="compose">
+          <div class="avatar avatar-blue">AN</div>
+          <div class="composer-main">
+            <textarea id="tweet-text" maxlength="280" placeholder="¿Qué está ocurriendo?" aria-label="Texto para clasificar"></textarea>
+            <div class="composer-toolbar">
+              <div class="composer-tools" aria-hidden="true"><span>▧</span><span>GIF</span><span>☷</span><span>☺</span><span>◷</span><span>⌖</span></div>
+              <span id="char-count">0/280</span>
+              <select id="model-select" aria-label="Modelo de clasificación"></select>
+              <button id="analyze-button" class="post-button" type="button">Analizar</button>
+            </div>
+            <p id="composer-error" class="error-message" role="alert"></p>
+          </div>
+        </section>
+
+        <div class="feed-toolbar">
+          <span>Señales detectadas</span>
+          <select id="category-filter" aria-label="Filtrar por categoría">
+            <option value="all">Todas las categorías</option>
+          </select>
+          <span id="post-count"></span>
+        </div>
+        <div id="feed-list" class="feed-list" aria-live="polite"></div>
+      </main>
+
+      <aside class="right-sidebar">
+        <label class="search-box"><span>⌕</span><input type="search" placeholder="Buscar" aria-label="Buscar (demostración)" disabled></label>
+        <section class="side-card premium-card">
+          <h2>Suscríbete a Premium</h2>
+          <p>Obtén menos anuncios, análisis avanzados y más funciones para tu cuenta.</p>
+          <button class="fake-button" type="button" disabled>Subscribe</button>
+        </section>
+        <section class="side-card news-card">
+          <div class="card-title-row"><h2>Noticias de hoy</h2><button class="fake-icon" type="button" disabled>×</button></div>
+          <div class="news-item"><strong>Comunidades organizan ayudas tras las lluvias</strong><span>12 horas · Colombia · 5.809 publicaciones</span></div>
+          <div class="news-item"><strong>Nuevos reportes sobre vías afectadas</strong><span>14 horas · Noticias · 78,8 mil publicaciones</span></div>
+          <div class="news-item"><strong>Voluntarios se movilizan en varias regiones</strong><span>2 horas · Humanitario · 3.370 publicaciones</span></div>
+        </section>
+        <section class="side-card trend-card">
+          <div class="card-title-row"><h2>Qué está pasando</h2><button class="fake-icon" type="button" disabled>•••</button></div>
+          <div class="trend"><small>Emergencias · Tendencia</small><strong>Inundaciones</strong><button class="fake-icon" type="button" disabled>•••</button></div>
+          <div class="trend"><small>Humanitario · Tendencia</small><strong>Ayuda urgente</strong><button class="fake-icon" type="button" disabled>•••</button></div>
+          <div class="trend"><small>Tendencia en Colombia</small><strong>Vías bloqueadas</strong><button class="fake-icon" type="button" disabled>•••</button></div>
+        </section>
+        <p class="footer-note">Condiciones · Privacidad · Accesibilidad<br>© 2026 X Humanitario</p>
+      </aside>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
