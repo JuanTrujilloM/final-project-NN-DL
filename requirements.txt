@@ -2,3 +2,8 @@ pandas
 pyyaml
 huggingface_hub
 scikit-learn
+torch
+transformers
+emoji
+matplotlib
+seaborn
