@@ -1,12 +1,3 @@
-"""Descarga los datos y construye los conjuntos de la etapa 1.
-
-    python scripts/prepare_data.py        (desde la raíz del repo)
-
-1. Descarga HumAID por evento y CrisisBench en data/raw/ (si ya están, no los vuelve a bajar).
-2. Asigna cada desastre a train, val o test según configs/protocolo.yaml, limpia y deduplica.
-3. Guarda los CSV en data/processed/ y las tablas de clases en results/etapa1/.
-"""
-
 import json
 from pathlib import Path
 
@@ -38,7 +29,7 @@ def main():
     if low := splits.check_class_coverage(df, cfg["humaid"]["min_per_class"]):
         print("   AVISO, clases por debajo del mínimo:", json.dumps(low, ensure_ascii=False))
 
-    # Tabla simple: una fila por categoría, una columna por conjunto y una fila de totales.
+    # Class counts per set, with a totals row.
     dist = splits.class_distribution(df)
     dist = dist[[c for c in ("train", "val", "test", "test_intra") if c in dist]]
     if cfg["chile"]["enabled"]:
