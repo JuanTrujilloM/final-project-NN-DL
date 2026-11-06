@@ -1,0 +1,52 @@
+# Protocolo experimental: todas las etapas leen de aquí para que las comparaciones sean justas.
+seed: 42
+metric: f1_macro
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  results: results/etapa1
+
+humaid:
+  repo: QCRI/HumAID-events
+  # Split por desastre completo: cada evento va ENTERO a un solo conjunto (sin fuga de evento).
+  # Reparto elegido entre 73 que cumplen las reglas (ver docs/protocolo-experimental.md).
+  events:
+    train:
+      - california_wildfires_2018
+      - canada_wildfires_2016
+      - ecuador_earthquake_2016
+      - hurricane_dorian_2019
+      - hurricane_harvey_2017
+      - hurricane_irma_2017
+      - hurricane_maria_2017
+      - hurricane_matthew_2016
+      - italy_earthquake_aug_2016
+      - kerala_floods_2018
+      - midwestern_us_floods_2019
+      - pakistan_earthquake_2019
+      - srilanka_floods_2017
+    val:
+      - cyclone_idai_2019
+      - kaikoura_earthquake_2016
+    test:
+      - puebla_mexico_earthquake_2017   # terremoto en Latinoamérica, el más cercano al caso colombiano
+      - maryland_floods_2018
+      - hurricane_florence_2018
+      - greece_wildfires_2018
+  # Referencia optimista: el `test` interno de los eventos de train se aparta como `test_intra`
+  # (y sale del entrenamiento) para medir cuánto infla el resultado ver el mismo desastre.
+  intra_event_reference: true
+  # Mínimo de tweets por clase para que ninguna clase quede casi vacía.
+  min_per_class:
+    val: 15
+    test: 30
+
+dedup:
+  # Casi-duplicados por similitud coseno TF-IDF, el mismo umbral que usó el paper de HumAID.
+  near_duplicate_threshold: 0.75
+
+chile:
+  enabled: true
+  repo: QCRI/CrisisBench-all-lang
+  event: 2014_chile_earthquake_esp
