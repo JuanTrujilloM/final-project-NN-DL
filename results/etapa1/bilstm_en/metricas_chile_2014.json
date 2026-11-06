@@ -1,0 +1,80 @@
+{
+  "f1_macro": 0.047277105408802,
+  "accuracy": 0.10146173688736028,
+  "n": 2326,
+  "por_clase": {
+    "caution_and_advice": {
+      "precision": 0.03125,
+      "recall": 0.008620689655172414,
+      "f1-score": 0.013513513513513514,
+      "support": 116.0
+    },
+    "displaced_people_and_evacuations": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 25.0
+    },
+    "infrastructure_and_utility_damage": {
+      "precision": 0.06382978723404255,
+      "recall": 0.024,
+      "f1-score": 0.03488372093023256,
+      "support": 125.0
+    },
+    "injured_or_dead_people": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 377.0
+    },
+    "missing_or_found_people": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 38.0
+    },
+    "not_humanitarian": {
+      "precision": 0.0688367129135539,
+      "recall": 0.8657718120805369,
+      "f1-score": 0.12753336628769155,
+      "support": 149.0
+    },
+    "other_relevant_information": {
+      "precision": 0.2577639751552795,
+      "recall": 0.19856459330143542,
+      "f1-score": 0.22432432432432434,
+      "support": 418.0
+    },
+    "requests_or_urgent_needs": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 64.0
+    },
+    "rescue_volunteering_or_donation_effort": {
+      "precision": 0.5,
+      "recall": 0.004032258064516129,
+      "f1-score": 0.008,
+      "support": 496.0
+    },
+    "sympathy_and_support": {
+      "precision": 0.45,
+      "recall": 0.03474903474903475,
+      "f1-score": 0.06451612903225806,
+      "support": 518.0
+    },
+    "accuracy": 0.10146173688736028,
+    "macro avg": {
+      "precision": 0.1371680475302876,
+      "recall": 0.11357383878506958,
+      "f1-score": 0.047277105408802,
+      "support": 2326.0
+    },
+    "weighted avg": {
+      "precision": 0.26255620603752433,
+      "recall": 0.10146173688736028,
+      "f1-score": 0.06710465462897244,
+      "support": 2326.0
+    }
+  }
+}

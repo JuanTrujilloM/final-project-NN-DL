@@ -1,0 +1,4 @@
+modelo,épocas,minutos,gpu,F1 val,F1 test,F1 test_intra,F1 chile_2014
+bertweet_en,5,15.98,Tesla T4,0.7078,0.7469,0.7411,0.0854
+bilstm_en,17,4.67,Tesla T4,0.6503,0.6592,0.7107,0.0473
+xlmr_en,5,24.05,Tesla T4,0.7048,0.7289,0.7329,0.3888

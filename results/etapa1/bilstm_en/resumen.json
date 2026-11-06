@@ -1,0 +1,61 @@
+{
+  "nombre": "bilstm_en",
+  "mejor_val_f1_macro": 0.6502591999417964,
+  "epocas_entrenadas": 17,
+  "parametros": {
+    "total": 4536411,
+    "entrenables": 4536411
+  },
+  "vocabulario": 19002,
+  "recursos": {
+    "tiempo_entrenamiento_min": 4.67,
+    "plataforma": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "cpu_nucleos": 4,
+    "gpu": "Tesla T4",
+    "gpu_memoria_gb": 15.6,
+    "gpu_memoria_max_usada_gb": 0.17
+  },
+  "resultados": {
+    "val": {
+      "f1_macro": 0.6502591999417964,
+      "accuracy": 0.7206074461136512,
+      "n": 6124
+    },
+    "test": {
+      "f1_macro": 0.659203314618153,
+      "accuracy": 0.6992217160212605,
+      "n": 10536
+    },
+    "test_intra": {
+      "f1_macro": 0.7106630059031158,
+      "accuracy": 0.7244200759173345,
+      "n": 11855
+    },
+    "chile_2014": {
+      "f1_macro": 0.047277105408802,
+      "accuracy": 0.10146173688736028,
+      "n": 2326
+    }
+  },
+  "hiperparametros": {
+    "name": "bilstm_en",
+    "vocab_size": 30000,
+    "min_frequency": 2,
+    "max_len": 80,
+    "embedding_dim": 200,
+    "hidden_size": 128,
+    "num_layers": 2,
+    "dropout": 0.3,
+    "pooling": "attention",
+    "batch_size": 64,
+    "epochs": 30,
+    "lr": 0.001,
+    "weight_decay": 0.0,
+    "clip_grad": 1.0,
+    "patience": 5,
+    "lr_patience": 2,
+    "lr_factor": 0.5,
+    "class_weights": "balanced"
+  }
+}
