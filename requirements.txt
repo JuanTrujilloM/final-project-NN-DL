@@ -2,3 +2,5 @@ pandas
 pyyaml
 huggingface_hub
 scikit-learn
+fastapi
+uvicorn
