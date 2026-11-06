@@ -97,7 +97,7 @@ Solo se usa para Chile 2014. Está en [`src/humaid/labels.py`](../src/humaid/lab
 | URLs a `HTTPURL`, menciones a `@USER` | Convención de BERTweet; sirve igual a XLM-R y al BiLSTM. El contenido de una URL o usuario no aporta a la categoría. |
 | Hashtags: se conserva la palabra y se separa el CamelCase | Suelen cargar el tema (`#HurricaneIrma` pasa a `Hurricane Irma`). |
 | Se quita el prefijo `RT @usuario:` y se decodifican entidades HTML | Ruido sin información. |
-| Emojis y mayúsculas se conservan | Cada modelo decide. El BiLSTM pasa a minúsculas con `tokenize_words`. |
+| Emojis y mayúsculas se conservan | Cada modelo decide. El tokenizador del BiLSTM pasa a minúsculas; los Transformers usan su propio tokenizador. |
 | Se repara el texto con doble codificación (`AtenciÃ³n` a `Atención`) | El 38,7 % de Chile 2014 lo traía corrupto (900 de 2.326 tweets). Tras la reparación queda 1. |
 | Tokenización de Transformers | Cada modelo usa su propio tokenizador sobre el texto limpio. |
 

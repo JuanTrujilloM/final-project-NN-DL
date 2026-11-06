@@ -43,6 +43,11 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/prepare_data.py   # descarga y construye los conjuntos
 ```
 
+### Entrenamiento (etapa 1)
+Todo el entrenamiento está en [`notebooks/etapa1.ipynb`](notebooks/etapa1.ipynb): BiLSTM desde cero (#3), y fine-tuning de BERTweet y XLM-R base (#4). Está pensado para Kaggle (GPU e Internet activados): clona el repo, instala dependencias, prepara los datos y entrena los tres modelos. Los hiperparámetros de cada modelo están en un diccionario dentro del notebook, y con `LIMIT = 500` se hace una prueba rápida.
+
+Cada modelo guarda en `results/etapa1/<modelo>/` las curvas, el historial por época, métricas y matrices de confusión por conjunto, predicciones (sin el texto de los tweets) y un `resumen.json` con hiperparámetros, hardware y tiempo. La tabla comparativa queda en `results/etapa1/comparacion.csv` y el mejor modelo de cada uno en `models/<modelo>/` (fuera de git).
+
 ## Extensión al Español y al Contexto Colombiano
 HumAID está compuesto únicamente por tweets en inglés de desastres ocurridos en otros países, mientras que el contexto que nos interesa es el colombiano, donde la información se publica en español y con expresiones, nombres de lugares y formas de reportar propias de la región.
 
