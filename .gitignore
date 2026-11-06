@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+.env
+
+# Datos: licencia CC BY-NC-SA y repo público. Se regeneran con scripts/prepare_data.py
+data/raw/
+data/interim/
+data/processed/
+data/translated/
+data/colombia/
+
+# Checkpoints de modelos
+models/*
+!models/.gitkeep
+
+node_modules/
