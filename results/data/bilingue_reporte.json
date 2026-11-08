@@ -1,0 +1,61 @@
+{
+  "humaid_por_conjunto": {
+    "train": {
+      "humaid_en": 47671,
+      "humaid_trad": 47671
+    },
+    "val": {
+      "humaid_en": 6124,
+      "humaid_trad": 6124
+    },
+    "test": {
+      "humaid_en": 10536,
+      "humaid_trad": 10536
+    },
+    "test_intra": {
+      "humaid_en": 11855,
+      "humaid_trad": 11855
+    }
+  },
+  "crisisbench_es": {
+    "eventos": [
+      "2012_costa-rica_earthquake",
+      "2012_guatemala_earthquake",
+      "2012_italy_earthquakes",
+      "2012_venezuela_refinery-explosion",
+      "2013_spain_train-crash_en-mixed"
+    ],
+    "total": 2158,
+    "sin_equivalente_descartados": {
+      "affected_individual": 367
+    },
+    "deduplicacion": {
+      "vacios": 0,
+      "duplicados_internos": 0,
+      "exactos_en_evaluacion": 0,
+      "casi_duplicados_en_evaluacion": 1
+    },
+    "final": 1790
+  },
+  "traducciones_de_train_iguales_a_evaluacion": 9,
+  "tweets_por_conjunto_y_fuente": {
+    "crisisbench_es": {
+      "test": 0,
+      "test_intra": 0,
+      "train": 1790,
+      "val": 0
+    },
+    "humaid_en": {
+      "test": 10536,
+      "test_intra": 11855,
+      "train": 47671,
+      "val": 6124
+    },
+    "humaid_trad": {
+      "test": 10536,
+      "test_intra": 11855,
+      "train": 47662,
+      "val": 6124
+    }
+  }
+}
