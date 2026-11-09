@@ -1,0 +1,19 @@
+{
+  "candidato": "mdeberta_base",
+  "max_len": 128,
+  "dropout": 0.1,
+  "batch_size": 32,
+  "lp_lr": 0.001,
+  "lp_epochs": 20,
+  "lp_patience": 3,
+  "lr": 2e-05,
+  "llrd": 0.95,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.1,
+  "epochs": 10,
+  "patience": 3,
+  "clip_grad": 1.0,
+  "class_weights": "balanced",
+  "amp": true,
+  "model_name": "microsoft/mdeberta-v3-base"
+}

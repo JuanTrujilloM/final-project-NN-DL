@@ -1,0 +1,2 @@
+modelo,tipo,semillas,F1 val,F1 test,F1 test_intra,F1 chile_2014,F1 ponderado val,F1 ponderado test,F1 ponderado test_intra,F1 ponderado chile_2014
+bilstm_en,desde_cero,3,0.6805 ± 0.0043,0.6921 ± 0.0103,0.7349 ± 0.0031,0.0489 ± 0.0039,0.7584 ± 0.0013,0.7385 ± 0.0138,0.7543 ± 0.0020,0.0753 ± 0.0062

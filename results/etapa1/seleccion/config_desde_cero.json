@@ -1,0 +1,21 @@
+{
+  "hidden_size": 128,
+  "num_layers": 2,
+  "rnn_dropout": 0.3,
+  "pooling": "attention_max",
+  "embeddings": "glove",
+  "freeze_embeddings": true,
+  "max_len": 80,
+  "emb_dropout": 0.3,
+  "dropout": 0.5,
+  "head_hidden": 256,
+  "batch_size": 64,
+  "epochs": 50,
+  "lr": 0.001,
+  "weight_decay": 0.01,
+  "clip_grad": 1.0,
+  "patience": 5,
+  "lr_patience": 2,
+  "lr_factor": 0.5,
+  "class_weights": "sqrt"
+}

@@ -1,0 +1,5 @@
+candidato,modelo,val_f1_macro,val_f1_macro_lp,minutos
+mdeberta_base,microsoft/mdeberta-v3-base,0.7096,0.4219,24.16
+xlmr_large,xlm-roberta-large,0.7091,0.586,42.76
+xlmt_base,cardiffnlp/twitter-xlm-roberta-base,0.7028,0.5455,17.62
+xlmr_base,xlm-roberta-base,0.6981,0.5542,17.58
