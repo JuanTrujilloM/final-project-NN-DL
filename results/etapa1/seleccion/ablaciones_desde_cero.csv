@@ -1,7 +1,0 @@
-cambio,val_f1_macro,mejor_hasta_ahora,se_conserva
-base,0.6686,0.6686,True
-embeddings_aleatorios,0.6609,0.6686,False
-glove_congelado,0.6725,0.6686,True
-pesos_sqrt,0.6807,0.6725,True
-solo_atencion,0.6769,0.6807,False
-solo_max,0.6763,0.6807,False
