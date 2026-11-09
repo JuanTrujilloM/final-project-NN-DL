@@ -47,3 +47,10 @@ chile:
   enabled: true
   repo: QCRI/CrisisBench-all-lang
   event: 2014_chile_earthquake_esp
+
+translation:
+  # Output of notebooks/traduccion.ipynb (Kaggle), turned into data/processed/humaid_es
+  raw: data/raw/humaid_events_translated
+
+bilingual:
+  output: data/processed/bilingue

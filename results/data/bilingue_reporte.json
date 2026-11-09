@@ -1,0 +1,35 @@
+{
+  "humaid_por_conjunto": {
+    "train": {
+      "humaid_en": 47671,
+      "humaid_trad": 47671
+    },
+    "val": {
+      "humaid_en": 6124,
+      "humaid_trad": 6124
+    },
+    "test": {
+      "humaid_en": 10536,
+      "humaid_trad": 10536
+    },
+    "test_intra": {
+      "humaid_en": 11855,
+      "humaid_trad": 11855
+    }
+  },
+  "traducciones_de_train_iguales_a_evaluacion": 9,
+  "tweets_por_conjunto_y_fuente": {
+    "humaid_en": {
+      "test": 10536,
+      "test_intra": 11855,
+      "train": 47671,
+      "val": 6124
+    },
+    "humaid_trad": {
+      "test": 10536,
+      "test_intra": 11855,
+      "train": 47662,
+      "val": 6124
+    }
+  }
+}
