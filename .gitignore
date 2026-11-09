@@ -12,8 +12,9 @@ data/interim/
 data/processed/
 data/colombia/
 
-# Model checkpoints
-models/*
-!models/.gitkeep
+# Training checkpoints and transformer weights (too large for GitHub); BiLSTM weights and model configs are tracked
+models/checkpoints/
+models/*/*/model.pt
+!models/*/bilstm_*/model.pt
 
 node_modules/

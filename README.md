@@ -46,12 +46,20 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ### Entrenamiento (etapa 1)
 Todo el entrenamiento está en [`notebooks/etapa1.ipynb`](notebooks/etapa1.ipynb). Está pensado para Kaggle (GPU e Internet activados): clona el repo, instala dependencias, prepara los datos y entrena:
 
-- **Desde cero**: BiLSTM de 2 capas (atención + max pooling) con embeddings GloVe Twitter. Se hacen ablaciones con val y la configuración final se entrena con 3 semillas.
-- **Fine-tuning**: screening de 4 Transformers multilingües (XLM-R base, XLM-T, mDeBERTa-v3, XLM-R large) con la receta LP-FT y LLRD; el ganador se entrena con 3 semillas. BERTweet queda como referencia solo en inglés.
+- **Desde cero**: BiLSTM de 2 capas (atención + max pooling) con embeddings GloVe Twitter. Se hacen ablaciones con val y se entrena la configuración final.
+- **Fine-tuning**: screening de 4 Transformers multilingües (XLM-R base, XLM-T, mDeBERTa-v3, XLM-R large) con la receta LP-FT y LLRD; se entrena el ganador. BERTweet queda como referencia solo en inglés.
 
 Los hiperparámetros están en diccionarios dentro del notebook; con `LIMIT = 500` se hace una prueba rápida, y `RUN` permite repartir los bloques en varias sesiones.
 
-Las corridas de selección (solo val) quedan en `results/etapa1/seleccion/`. Cada modelo final guarda en `results/etapa1/<modelo>_s<semilla>/` las curvas, el historial por época, métricas (F1-macro y ponderado) y matrices de confusión por conjunto, predicciones (sin el texto de los tweets) y un `resumen.json` con hiperparámetros, hardware y tiempo. Las tablas comparativas son `results/etapa1/comparacion.csv` (una fila por corrida) y `comparacion_resumen.csv` (media ± desviación entre semillas).
+Las corridas de selección (solo val) quedan en `results/etapa1/seleccion/`. Todo se entrena con la semilla 42. Cada modelo final guarda en `results/etapa1/<modelo>/` las curvas, el historial por época, métricas (F1-macro y ponderado) y matrices de confusión por conjunto, predicciones (sin el texto de los tweets) y un `resumen.json` con hiperparámetros, hardware y tiempo. La tabla comparativa es `results/etapa1/comparacion.csv` (una fila por modelo).
+
+### Modelos entrenados
+Los modelos finales de cada etapa se guardan en `models/etapa1/` y `models/etapa2/`, una carpeta por modelo, con lo necesario para clasificar textos nuevos sin los notebooks:
+
+- **BiLSTM** (`bilstm_en`, `bilstm_bi`): `model.pt` (pesos), `vocab.json` y `config.json` (hiperparámetros y orden de las clases).
+- **Transformer** (`<modelo>_en`, `<modelo>_bi`): `model.pt` (pesos del clasificador completo), `encoder/` (configuración del encoder), `tokenizer/` y `config.json`.
+
+Kaggle los entrega en `modelos_etapa1.zip` y `modelos_etapa2.zip`. Los BiLSTM se suben al repositorio; los `model.pt` de los Transformers (~1 GB) superan el límite de GitHub y quedan fuera de git (`.gitignore`), así que se comparten aparte. Los checkpoints temporales del entrenamiento van a `models/checkpoints/`, que tampoco se sube.
 
 ## Extensión al Español y al Contexto Colombiano
 HumAID está compuesto únicamente por tweets en inglés de desastres ocurridos en otros países, mientras que el contexto que nos interesa es el colombiano, donde la información se publica en español y con expresiones, nombres de lugares y formas de reportar propias de la región.
