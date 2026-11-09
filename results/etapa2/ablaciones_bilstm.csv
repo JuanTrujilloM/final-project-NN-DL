@@ -1,0 +1,7 @@
+paso,cambio,val_f1_macro,val_en,val_es,epocas,minutos,gpu,se_conserva
+0,base (configuración de la etapa 1),0.6484,0.6579,0.6385,12,7.6,Tesla T4,True
+1,sentencepiece,0.6467,0.6521,0.6412,13,8.48,Tesla T4,False
+2,adamw_wd,0.647,0.6441,0.6501,9,5.68,Tesla T4,False
+3,dropout_0.5,0.6517,0.6573,0.6458,15,9.41,Tesla T4,True
+4,pesos_sqrt,0.664,0.6725,0.6537,16,10.08,Tesla T4,True
+5,hidden_256,0.6616,0.6624,0.6609,14,9.42,Tesla T4,False

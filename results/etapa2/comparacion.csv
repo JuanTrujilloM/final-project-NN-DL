@@ -1,0 +1,7 @@
+etapa,modelo,train,épocas,minutos,gpu,F1 val,F1 test,F1 test_intra,F1 chile_2014,F1 val_es,F1 test_es,F1 test_intra_es
+2,bilstm_bi,completo,16,10.08,Tesla T4,0.6725,0.6828,0.7192,0.3478,0.6537,0.6089,0.7035
+2,bilstm_bi_base,completo,12,7.6,Tesla T4,0.6579,0.6512,0.6962,0.3111,0.6385,0.5927,0.6922
+2,xlmr_bi,completo,5,48.09,Tesla T4,0.7053,0.7277,0.7311,0.4118,0.6967,0.7094,0.7222
+2,xlmr_bi_sin_nativo,sin_nativo,5,47.28,Tesla T4,0.7001,0.7249,0.7304,0.3876,0.6938,0.709,0.7265
+2,xlmr_bi_solo_nativo,solo_nativo,5,24.55,Tesla T4,0.71,0.7311,0.738,0.371,0.6132,0.6338,0.6728
+2,xlmr_bi_trad_muestra,trad_muestra,5,24.59,Tesla T4,0.7101,0.7244,0.7285,0.366,0.6008,0.6182,0.6514

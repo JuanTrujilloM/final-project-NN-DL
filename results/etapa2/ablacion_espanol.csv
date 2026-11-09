@@ -1,0 +1,5 @@
+corrida,modelo,tweets_es_train,F1 chile_2014,F1 chile_2014 (clases del nativo),F1 test_es,F1 test,minutos
+completo,xlmr_bi,49452,0.4118,0.4664,0.7094,0.7277,48.09
+sin_nativo,xlmr_bi_sin_nativo,47662,0.3876,0.4375,0.709,0.7249,47.28
+solo_nativo,xlmr_bi_solo_nativo,1790,0.371,0.4334,0.6338,0.7311,24.55
+trad_muestra,xlmr_bi_trad_muestra,1790,0.366,0.3973,0.6182,0.7244,24.59

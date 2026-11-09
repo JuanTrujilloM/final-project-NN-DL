@@ -1,0 +1,85 @@
+{
+  "nombre": "xlmr_bi",
+  "modelo": "xlm-roberta-base",
+  "conjunto_train": "completo",
+  "tweets_train": {
+    "humaid_en": 47671,
+    "humaid_trad": 47662,
+    "crisisbench_es": 1790
+  },
+  "mejor_val_f1_macro": 0.7006842701418501,
+  "val_por_idioma": {
+    "val_en": 0.7052514981978513,
+    "val_es": 0.6966682830115463
+  },
+  "epocas_entrenadas": 5,
+  "parametros": {
+    "total": 278051338,
+    "entrenables": 278051338
+  },
+  "recursos": {
+    "tiempo_entrenamiento_min": 48.09,
+    "plataforma": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "cpu_nucleos": 4,
+    "gpu": "Tesla T4",
+    "gpu_memoria_gb": 15.6,
+    "gpu_memoria_max_usada_gb": 6.37
+  },
+  "resultados": {
+    "val": {
+      "f1_macro": 0.7052514981978513,
+      "accuracy": 0.7684519921619857,
+      "n": 6124
+    },
+    "test": {
+      "f1_macro": 0.7276664198137968,
+      "accuracy": 0.7706909643128322,
+      "n": 10536
+    },
+    "test_intra": {
+      "f1_macro": 0.7310805462353804,
+      "accuracy": 0.7476170392239562,
+      "n": 11855
+    },
+    "chile_2014": {
+      "f1_macro": 0.4118033975067519,
+      "accuracy": 0.5451418744625968,
+      "n": 2326
+    },
+    "val_es": {
+      "f1_macro": 0.6966682830115463,
+      "accuracy": 0.7552253429131287,
+      "n": 6124
+    },
+    "test_es": {
+      "f1_macro": 0.7093681793991948,
+      "accuracy": 0.7576879271070615,
+      "n": 10536
+    },
+    "test_intra_es": {
+      "f1_macro": 0.7221595587750879,
+      "accuracy": 0.7455925769717419,
+      "n": 11855
+    }
+  },
+  "hiperparametros": {
+    "name": "xlmr_bi",
+    "model_name": "xlm-roberta-base",
+    "tokenizer_kwargs": {},
+    "max_len": 128,
+    "dropout": 0.1,
+    "batch_size": 32,
+    "epochs_frozen": 1,
+    "lr_head": 0.001,
+    "epochs": 4,
+    "lr_encoder": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "clip_grad": 1.0,
+    "patience": 2,
+    "class_weights": "balanced",
+    "amp": true,
+    "train_set": "completo"
+  }
+}
