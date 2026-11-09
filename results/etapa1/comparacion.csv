@@ -1,4 +1,0 @@
-modelo,tipo,semilla,épocas,minutos,gpu,F1 val,F1 test,F1 test_intra,F1 chile_2014,F1 ponderado val,F1 ponderado test,F1 ponderado test_intra,F1 ponderado chile_2014
-bilstm_en,desde_cero,42,13,3.31,Tesla T4,0.6807,0.7029,0.7393,0.0439,0.7591,0.7495,0.7536,0.0677
-bilstm_en,desde_cero,43,9,2.31,Tesla T4,0.6752,0.6783,0.7333,0.0494,0.7566,0.7191,0.757,0.0752
-bilstm_en,desde_cero,44,15,4.03,Tesla T4,0.6857,0.695,0.7321,0.0533,0.7594,0.747,0.7523,0.0829
