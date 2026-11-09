@@ -10,7 +10,6 @@ __pycache__/
 data/raw/
 data/interim/
 data/processed/
-data/translated/
 data/colombia/
 
 # Model checkpoints
