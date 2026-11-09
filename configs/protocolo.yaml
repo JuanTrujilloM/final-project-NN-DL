@@ -48,14 +48,9 @@ chile:
   repo: QCRI/CrisisBench-all-lang
   event: 2014_chile_earthquake_esp
 
+translation:
+  # Output of notebooks/traduccion.ipynb (Kaggle), turned into data/processed/humaid_es
+  raw: data/raw/humaid_events_translated
+
 bilingual:
-  translated: data/translated/humaid_es
   output: data/processed/bilingue
-  crisisbench_es:
-    # Spanish events with at least 40 usable tweets and more than one class
-    events:
-      - 2012_costa-rica_earthquake
-      - 2012_guatemala_earthquake
-      - 2012_italy_earthquakes
-      - 2012_venezuela_refinery-explosion
-      - 2013_spain_train-crash_en-mixed
