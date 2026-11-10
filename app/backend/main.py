@@ -1,176 +1,162 @@
-"""API de demostración para clasificar publicaciones humanitarias."""
-
+import asyncio
+import json
+import os
+import sys
+import uuid
+from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
-import re
-from typing import Dict, List
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
-from .model_service import (
-    ModelArtifactError,
-    ModelNotReadyError,
-    ModelService,
-    default_model_dir,
-)
-
 ROOT = Path(__file__).resolve().parents[2]
-FRONTEND = ROOT / "app" / "frontend"
+sys.path.insert(0, str(ROOT / "src"))
 
-LABELS = {
-    "caution_and_advice": "Precauciones y consejos",
-    "displaced_people_and_evacuations": "Desplazados y evacuaciones",
-    "infrastructure_and_utility_damage": "Daños en infraestructura",
-    "injured_or_dead_people": "Heridos o muertos",
-    "missing_or_found_people": "Personas desaparecidas",
-    "not_humanitarian": "No humanitario",
-    "other_relevant_information": "Otra información relevante",
-    "requests_or_urgent_needs": "Solicitudes o necesidades urgentes",
-    "rescue_volunteering_or_donation_effort": "Rescate, voluntariado o donaciones",
-    "sympathy_and_support": "Simpatía y apoyo",
-}
+from humaid.data.preprocess import clean_tweet
 
-MODELS = [
-    {
-        "id": "simulador-humaid",
-        "name": "Simulador HumAID",
-        "description": "Predicción demostrativa basada en palabras clave.",
-        "status": "demo",
-    },
-    {
-        "id": "bilstm-base",
-        "name": "BiLSTM base",
-        "description": "Espacio reservado para el modelo entrenado del proyecto.",
-        "status": "planned",
-    },
-    {
-        "id": "transformer-es",
-        "name": "Transformer en español",
-        "description": "Espacio reservado para el modelo Transformer ajustado.",
-        "status": "planned",
-    },
-]
+from .labels import GROUP_OF, GROUPS, LABEL_NAMES
+from .registry import ModelRegistry
 
-KEYWORDS = {
-    "requests_or_urgent_needs": (
-        "ayuda", "agua", "comida", "necesito", "urgente", "rescate", "medicina",
-    ),
-    "infrastructure_and_utility_damage": (
-        "puente", "carretera", "daño", "derrumb", "sin luz", "inundad", "vía",
-    ),
-    "injured_or_dead_people": (
-        "herido", "herida", "muerto", "falleció", "ambulancia", "lesionado",
-    ),
-    "displaced_people_and_evacuations": (
-        "evac", "desplaz", "refugio", "albergue", "desalojo",
-    ),
-    "rescue_volunteering_or_donation_effort": (
-        "donar", "donación", "voluntario", "rescate", "brigada",
-    ),
-    "caution_and_advice": (
-        "alerta", "precaución", "recomend", "evite", "información oficial",
-    ),
-    "missing_or_found_people": (
-        "desaparecid", "buscamos", "encontrad", "perdido",
-    ),
-    "sympathy_and_support": (
-        "fuerza", "solidaridad", "ánimo", "acompañamos",
-    ),
-}
+MODELS_ROOT = Path(os.environ.get("HUMAID_MODEL_DIR", ROOT / "models"))
+DIST = ROOT / "app" / "frontend" / "dist"
 
-model_service = ModelService(LABELS, default_model_dir(ROOT))
-app = FastAPI(title="AlertaNexo API", version="0.1.0")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+registry = ModelRegistry(MODELS_ROOT)
+posts = []
+subscribers = set()
 
 
-class PredictionRequest(BaseModel):
-    text: str = Field(..., min_length=1, max_length=1000)
-    model: str = Field(default="simulador-humaid")
+class NewPost(BaseModel):
+    text: str = Field(..., min_length=1, max_length=280)
+    author: str = Field(default="Tú", max_length=50)
+    handle: str = Field(default="ciudadano_co", max_length=30)
 
 
-class PredictionResponse(BaseModel):
+class ActiveModel(BaseModel):
     model: str
-    label: str
-    label_name: str
-    confidence: float
-    probabilities: Dict[str, float]
 
 
-def _tokenize(text: str) -> str:
-    return re.sub(r"\s+", " ", text.lower()).strip()
+def classification(model_id, probabilities):
+    label = max(probabilities, key=probabilities.get)
+    top = sorted(probabilities.items(), key=lambda item: item[1], reverse=True)[:3]
+    return {
+        "label": label,
+        "label_name": LABEL_NAMES[label],
+        "group": GROUP_OF[label],
+        "confidence": round(probabilities[label], 4),
+        "top": [{"label": k, "label_name": LABEL_NAMES[k], "p": round(v, 4)} for k, v in top],
+        "model": model_id,
+        "model_name": registry.models[model_id]["name"],
+    }
 
 
-def predict(text: str) -> PredictionResponse:
-    normalized = _tokenize(text)
-    scores = {label: 0.05 for label in LABELS}
-    for label, words in KEYWORDS.items():
-        scores[label] += sum(0.35 for word in words if word in normalized)
-    total = sum(scores.values())
-    probabilities = {label: round(score / total, 4) for label, score in scores.items()}
-    predicted = max(probabilities, key=probabilities.get)
-    confidence = probabilities[predicted]
-    return PredictionResponse(
-        model="simulador-humaid",
-        label=predicted,
-        label_name=LABELS[predicted],
-        confidence=confidence,
-        probabilities=probabilities,
-    )
+def make_post(text, author, handle, created_at):
+    return {"id": uuid.uuid4().hex[:12], "author": author, "handle": handle, "text": text,
+            "clean_text": clean_tweet(text), "created_at": created_at.isoformat(), "classification": None}
 
 
-def predict_with_model(model_id: str, text: str) -> PredictionResponse:
-    label, probabilities = model_service.predict(model_id, text)
-    return PredictionResponse(
-        model=model_id,
-        label=label,
-        label_name=LABELS[label],
-        confidence=probabilities[label],
-        probabilities=probabilities,
-    )
+def classify_posts(items, model_id=None):
+    used, results = registry.classify([p["clean_text"] for p in items], model_id)
+    for post, probabilities in zip(items, results):
+        post["classification"] = classification(used, probabilities)
 
 
-@app.get("/models")
-def list_models() -> List[dict]:
-    return [
-        {
-            **model,
-            "available": model["id"] == "simulador-humaid"
-            or model_service.is_available(model["id"]),
-        }
-        for model in MODELS
-    ]
+async def publish(event, data):
+    for queue in list(subscribers):
+        queue.put_nowait({"event": event, "data": data})
 
 
-@app.post("/predict", response_model=PredictionResponse)
-def classify(request: PredictionRequest) -> PredictionResponse:
-    if request.model not in {model["id"] for model in MODELS}:
-        raise HTTPException(status_code=400, detail=f"Modelo no disponible: {request.model}")
-    if request.model == "simulador-humaid":
-        return predict(request.text)
+def meta():
+    return {
+        "labels": [{"id": k, "name": v, "group": GROUP_OF[k]} for k, v in LABEL_NAMES.items()],
+        "groups": GROUPS,
+        "models": registry.public_models(),
+        "active_model": registry.active_id,
+    }
+
+
+# Loads the active model on startup so the first post does not wait for it.
+@asynccontextmanager
+async def lifespan(app):
+    if registry.active_id:
+        await run_in_threadpool(registry.get, registry.active_id)
+    yield
+
+
+app = FastAPI(title="AlertaNexo API", version="0.2.0", lifespan=lifespan)
+
+
+@app.get("/api/meta")
+def get_meta():
+    return meta()
+
+
+@app.get("/api/posts")
+def get_posts():
+    return posts
+
+
+@app.post("/api/posts")
+async def create_post(body: NewPost):
+    post = make_post(body.text.strip(), body.author, body.handle, datetime.now(timezone.utc))
     try:
-        return predict_with_model(request.model, request.text)
-    except ModelNotReadyError as error:
+        await run_in_threadpool(classify_posts, [post])
+    except RuntimeError as error:
         raise HTTPException(status_code=503, detail=str(error)) from error
-    except ModelArtifactError as error:
-        raise HTTPException(status_code=500, detail=str(error)) from error
+    posts.insert(0, post)
+    await publish("post_added", post)
+    return post
 
 
-@app.get("/")
-def frontend() -> FileResponse:
-    return FileResponse(FRONTEND / "index.html")
+@app.put("/api/active-model")
+async def set_active_model(body: ActiveModel):
+    try:
+        await run_in_threadpool(registry.set_active, body.model)
+    except KeyError as error:
+        raise HTTPException(status_code=404, detail=f"Modelo no disponible: {body.model}") from error
+    await publish("model_changed", {"active_model": registry.active_id})
+    return meta()
 
 
-@app.get("/{asset_path:path}")
-def frontend_assets(asset_path: str) -> FileResponse:
-    asset = (FRONTEND / asset_path).resolve()
-    if FRONTEND not in asset.parents or not asset.is_file():
-        raise HTTPException(status_code=404, detail="Recurso no encontrado")
-    return FileResponse(asset)
+# Classifies every post again with the active model, to compare models on the same feed.
+@app.post("/api/reclassify")
+async def reclassify():
+    if posts:
+        await run_in_threadpool(classify_posts, posts)
+    await publish("posts_reset", posts)
+    return posts
+
+
+@app.get("/api/stream")
+async def stream(request: Request):
+    queue = asyncio.Queue()
+    subscribers.add(queue)
+
+    async def events():
+        try:
+            yield "retry: 2000\n\n"
+            while not await request.is_disconnected():
+                try:
+                    message = await asyncio.wait_for(queue.get(), timeout=15)
+                except asyncio.TimeoutError:
+                    yield ": ping\n\n"
+                    continue
+                yield f"event: {message['event']}\ndata: {json.dumps(message['data'], ensure_ascii=False)}\n\n"
+        finally:
+            subscribers.discard(queue)
+
+    return StreamingResponse(events(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+# Built frontend (npm run build); any other path returns index.html so the client routes work.
+@app.get("/{path:path}")
+def frontend(path: str):
+    if not DIST.is_dir():
+        raise HTTPException(status_code=404, detail="Frontend sin compilar: corre npm run build en app/frontend")
+    asset = (DIST / path).resolve()
+    if path and DIST in asset.parents and asset.is_file():
+        return FileResponse(asset)
+    return FileResponse(DIST / "index.html")
