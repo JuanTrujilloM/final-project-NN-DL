@@ -1,0 +1,39 @@
+{
+  "tipo": "bilstm",
+  "semilla": 42,
+  "mejor_val_f1_macro": 0.6735206093876547,
+  "labels": [
+    "caution_and_advice",
+    "displaced_people_and_evacuations",
+    "infrastructure_and_utility_damage",
+    "injured_or_dead_people",
+    "missing_or_found_people",
+    "not_humanitarian",
+    "other_relevant_information",
+    "requests_or_urgent_needs",
+    "rescue_volunteering_or_donation_effort",
+    "sympathy_and_support"
+  ],
+  "glove_dim": 200,
+  "hiperparametros": {
+    "hidden_size": 128,
+    "num_layers": 2,
+    "rnn_dropout": 0.3,
+    "pooling": "attention_max",
+    "embeddings": "glove",
+    "freeze_embeddings": true,
+    "max_len": 80,
+    "emb_dropout": 0.3,
+    "dropout": 0.5,
+    "head_hidden": 256,
+    "batch_size": 64,
+    "epochs": 50,
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "clip_grad": 1.0,
+    "patience": 5,
+    "lr_patience": 2,
+    "lr_factor": 0.5,
+    "class_weights": "sqrt"
+  }
+}
