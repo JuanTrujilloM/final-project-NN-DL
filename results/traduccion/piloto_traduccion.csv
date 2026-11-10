@@ -1,0 +1,4 @@
+traductor,modelo,segundos,tweets_por_segundo,minutos_estimados_todo,vacio,sin_traducir,longitud,usuarios,repeticion,desconocido,alguna_alerta
+opus_big,Helsinki-NLP/opus-mt-tc-big-en-es,24.9,40.2,31.6,0.0,0.0,0.0,0.5,0.0,3.4,3.9
+opus_base,Helsinki-NLP/opus-mt-en-es,33.9,29.5,43.0,0.0,0.1,0.1,0.1,0.0,0.0,0.3
+nllb,facebook/nllb-200-distilled-600M,67.0,14.9,85.1,0.0,0.0,0.0,0.9,0.0,0.1,0.9

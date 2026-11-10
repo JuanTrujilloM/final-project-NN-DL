@@ -1,0 +1,69 @@
+{
+  "nombre": "xlmr_large_en",
+  "modelo": "xlm-roberta-large",
+  "mejor_val_f1_macro": 0.7157289315240739,
+  "val_f1_macro_lp": 0.5804278181408006,
+  "epocas_lp": 20,
+  "epocas_ft": 6,
+  "epocas_entrenadas": 26,
+  "parametros": {
+    "total": 559900682,
+    "entrenables": 559900682
+  },
+  "recursos": {
+    "tiempo_entrenamiento_min": 86.15,
+    "plataforma": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "cpu_nucleos": 4,
+    "gpu": "Tesla T4",
+    "gpu_memoria_gb": 15.6,
+    "gpu_memoria_max_usada_gb": 13.97
+  },
+  "hiperparametros": {
+    "max_len": 128,
+    "dropout": 0.1,
+    "batch_size": 32,
+    "lp_lr": 0.001,
+    "lp_epochs": 20,
+    "lp_patience": 3,
+    "lr": 1e-05,
+    "llrd": 0.95,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "epochs": 10,
+    "patience": 3,
+    "clip_grad": 1.0,
+    "class_weights": "sqrt",
+    "amp": true,
+    "model_name": "xlm-roberta-large"
+  },
+  "resultados": {
+    "val": {
+      "f1_macro": 0.7157289315240739,
+      "f1_weighted": 0.7887500853223981,
+      "accuracy": 0.7929457870672763,
+      "n": 6124
+    },
+    "test": {
+      "f1_macro": 0.7403049076183772,
+      "f1_weighted": 0.7796349192674512,
+      "accuracy": 0.7794229309035687,
+      "n": 10536
+    },
+    "test_intra": {
+      "f1_macro": 0.7445026482892363,
+      "f1_weighted": 0.7634521358494784,
+      "accuracy": 0.7718262336566849,
+      "n": 11855
+    },
+    "chile_2014": {
+      "f1_macro": 0.41242814325905774,
+      "f1_weighted": 0.5538428416278377,
+      "accuracy": 0.5588993981083406,
+      "n": 2326
+    }
+  },
+  "familia": "xlmr_large_en",
+  "semilla": 42,
+  "tipo": "fine_tuning"
+}

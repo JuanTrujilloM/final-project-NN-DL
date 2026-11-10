@@ -1,16 +1,14 @@
-# Protocolo experimental: todas las etapas leen de aquí para que las comparaciones sean justas.
 seed: 42
 metric: f1_macro
 
 paths:
   raw: data/raw
   processed: data/processed
-  results: results/etapa1
+  results: results/data
 
 humaid:
   repo: QCRI/HumAID-events
-  # Split por desastre completo: cada evento va ENTERO a un solo conjunto (sin fuga de evento).
-  # Reparto elegido entre 73 que cumplen las reglas (ver docs/protocolo-experimental.md).
+  # Each disaster goes whole to one set (see docs/protocolo-experimental.md).
   events:
     train:
       - california_wildfires_2018
@@ -30,23 +28,29 @@ humaid:
       - cyclone_idai_2019
       - kaikoura_earthquake_2016
     test:
-      - puebla_mexico_earthquake_2017   # terremoto en Latinoamérica, el más cercano al caso colombiano
+      - puebla_mexico_earthquake_2017
       - maryland_floods_2018
       - hurricane_florence_2018
       - greece_wildfires_2018
-  # Referencia optimista: el `test` interno de los eventos de train se aparta como `test_intra`
-  # (y sale del entrenamiento) para medir cuánto infla el resultado ver el mismo desastre.
+  # Internal test of the train events, kept apart as an optimistic reference.
   intra_event_reference: true
-  # Mínimo de tweets por clase para que ninguna clase quede casi vacía.
+  # Minimum tweets per class so no class is nearly empty.
   min_per_class:
     val: 15
     test: 30
 
 dedup:
-  # Casi-duplicados por similitud coseno TF-IDF, el mismo umbral que usó el paper de HumAID.
+  # Same threshold as the HumAID paper.
   near_duplicate_threshold: 0.75
 
 chile:
   enabled: true
   repo: QCRI/CrisisBench-all-lang
   event: 2014_chile_earthquake_esp
+
+translation:
+  # Output of notebooks/traduccion.ipynb (Kaggle), turned into data/processed/humaid_es
+  raw: data/raw/humaid_events_translated
+
+bilingual:
+  output: data/processed/bilingue

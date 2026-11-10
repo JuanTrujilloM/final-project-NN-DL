@@ -1,0 +1,39 @@
+{
+  "nombre": "bilstm_base",
+  "mejor_val_f1_macro": 0.6686003791717636,
+  "epocas_entrenadas": 10,
+  "parametros": {
+    "total": 4490339,
+    "entrenables": 4490339
+  },
+  "recursos": {
+    "tiempo_entrenamiento_min": 2.92,
+    "plataforma": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "cpu_nucleos": 4,
+    "gpu": "Tesla T4",
+    "gpu_memoria_gb": 15.6,
+    "gpu_memoria_max_usada_gb": 0.17
+  },
+  "hiperparametros": {
+    "hidden_size": 128,
+    "num_layers": 2,
+    "rnn_dropout": 0.3,
+    "pooling": "attention_max",
+    "embeddings": "glove",
+    "freeze_embeddings": false,
+    "max_len": 80,
+    "emb_dropout": 0.3,
+    "dropout": 0.5,
+    "head_hidden": 256,
+    "batch_size": 64,
+    "epochs": 50,
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "clip_grad": 1.0,
+    "patience": 5,
+    "lr_patience": 2,
+    "lr_factor": 0.5,
+    "class_weights": "balanced"
+  }
+}

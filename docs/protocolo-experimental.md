@@ -58,7 +58,7 @@ El reparto elegido deja test en 13,8 % y val en 8,0 %, e incluye a Puebla 2017, 
 | requests_or_urgent_needs | 1.846 | 167 | 140 | 460 | 64 |
 | missing_or_found_people | 142 | 19 | 160 | 36 | 38 |
 
-La tabla por evento y clase está en `results/etapa1/eventos_por_clase.csv`.
+La tabla por evento y clase está en `results/data/eventos_por_clase.csv`, y la distribución por conjunto en `results/data/distribucion_clases.csv`.
 
 El desbalance es fuerte: de 12.978 a 142 en train. Por eso la métrica principal es **F1-macro** y se usará pérdida ponderada por clase.
 
@@ -97,7 +97,7 @@ Solo se usa para Chile 2014. Está en [`src/humaid/labels.py`](../src/humaid/lab
 | URLs a `HTTPURL`, menciones a `@USER` | Convención de BERTweet; sirve igual a XLM-R y al BiLSTM. El contenido de una URL o usuario no aporta a la categoría. |
 | Hashtags: se conserva la palabra y se separa el CamelCase | Suelen cargar el tema (`#HurricaneIrma` pasa a `Hurricane Irma`). |
 | Se quita el prefijo `RT @usuario:` y se decodifican entidades HTML | Ruido sin información. |
-| Emojis y mayúsculas se conservan | Cada modelo decide. El BiLSTM pasa a minúsculas con `tokenize_words`. |
+| Emojis y mayúsculas se conservan | Cada modelo decide. El tokenizador del BiLSTM pasa a minúsculas; los Transformers usan su propio tokenizador. |
 | Se repara el texto con doble codificación (`AtenciÃ³n` a `Atención`) | El 38,7 % de Chile 2014 lo traía corrupto (900 de 2.326 tweets). Tras la reparación queda 1. |
 | Tokenización de Transformers | Cada modelo usa su propio tokenizador sobre el texto limpio. |
 
@@ -117,7 +117,7 @@ Se guardan `text_raw` y `text_clean`.
 Desde la raíz del repo:
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python scripts/prepare_data.py   # descarga (~67 MB en data/raw/) y construye data/processed/ y results/etapa1/
+.venv/bin/python scripts/prepare_data.py   # descarga (~67 MB en data/raw/) y construye data/processed/ y las tablas de results/data/
 ```
 
 ## Pendiente de decidir
