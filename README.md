@@ -66,31 +66,30 @@ HumAID está compuesto únicamente por tweets en inglés de desastres ocurridos 
 
 Como parte del proyecto queremos explorar si es posible que el modelo entrenado sobre HumAID llegue a entender tweets en español, y probarlo con tweets de desastres que han ocurrido en Colombia, como el último terremoto. Todavía no tenemos definida la manera de lograrlo pero es una idea que queremos investigar y que dependerá de lo que encontremos sobre los datos disponibles.
 
-## Prototipo de plataforma
+## Aplicación de demostración
 
-La carpeta [`app/`](app) contiene una integración web demostrativa para validar la experiencia de uso antes de conectar los modelos entrenados. Incluye una API con `POST /predict`, `GET /models` y CORS, además de un feed en español con publicaciones colombianas simuladas, filtro por categoría, selector de modelo y caja para analizar una nueva publicación. Por ahora, `simulador-humaid` usa palabras clave y probabilidades reproducibles; `bilstm-base` y `transformer-es` quedan listos para conectar los modelos reales.
+La carpeta [`app/`](app) muestra cómo funcionaría el sistema durante un desastre, con dos plataformas conectadas en tiempo real:
 
-Para ejecutarlo desde la raíz:
+- **Red social** (`/red`): un feed al estilo de X donde cualquier persona publica.
+- **Centro de información** (`/centro`): cada publicación se limpia con `clean_tweet` (el mismo preprocesamiento del entrenamiento), la clasifica el modelo elegido y aparece al instante agrupada por frente de respuesta (Personas, Necesidades y ayuda, Infraestructura y avisos, Contexto) o por cada una de las 10 categorías.
+- **Demo** (`/demo`): las dos plataformas lado a lado.
+
+El backend (FastAPI, `app/backend/`) descubre los modelos guardados en `models/etapaX/<modelo>/` y deja elegir en el centro con cuál clasificar; solo mantiene en memoria el modelo activo. Las publicaciones nuevas llegan a todas las pantallas abiertas por Server-Sent Events. El frontend es React + Vite + Tailwind (`app/frontend/`).
+
+Para desarrollo, desde la raíz del repositorio y en dos terminales:
 
 ```bash
-python -m pip install -r requirements.txt
-python -m uvicorn app.backend.main:app --reload
+.venv/bin/pip install -r app/requirements.txt
+.venv/bin/python -m uvicorn app.backend.main:app --reload --reload-dir app/backend --timeout-graceful-shutdown 2 --port 8000
 ```
 
-Después abre `http://127.0.0.1:8000`. La documentación interactiva de la API está disponible en `http://127.0.0.1:8000/docs`.
-
-### Conectar un modelo entrenado
-
-El backend carga modelos reales de forma diferida desde `models/<id>.pkl`, sin cambiar el frontend ni el endpoint. El objeto serializado debe implementar:
-
-```python
-model.classes_       # secuencia con los IDs de LABELS
-model.predict_proba  # función que recibe una lista de textos
+```bash
+cd app/frontend && npm install && npm run dev
 ```
 
-Por ejemplo, para conectar el modelo BiLSTM, guárdalo como `models/bilstm-base.pkl`. El backend lo reportará como disponible en `GET /models` y lo utilizará cuando llegue `model: "bilstm-base"` a `POST /predict`. El preprocesamiento/tokenizador debe quedar encapsulado dentro del objeto serializado para que `predict_proba(["texto"])` reciba textos crudos.
+Después abre `http://localhost:5173/demo`. Para una sola terminal, compila el frontend una vez (`npm run build` en `app/frontend`) y abre `http://localhost:8000/demo`, que lo sirve FastAPI.
 
-La carpeta puede cambiarse con la variable `HUMAID_MODEL_DIR`. Si el archivo aún no existe, la API responde `503` explicando dónde colocarlo; el simulador continúa funcionando.
+Los pesos de los Transformers no están en git (ver *Modelos entrenados*): copia su `model.pt` en la carpeta de cada modelo; los que no lo tienen aparecen deshabilitados en el selector.
 
 ## Objetivo General:
 Clasificar tweets publicados durante desastres naturales en las 11 categorías humanitarias del dataset HumAID, mediante el desarrollo y la comparación de un modelo BiLSTM y un modelo Transformer preentrenado, evaluando su capacidad de generalización sobre desastres no utilizados durante el entrenamiento, con el fin de apoyar la identificación rápida de información relevante para los equipos de respuesta a emergencias.

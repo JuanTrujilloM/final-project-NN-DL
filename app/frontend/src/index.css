@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --color-x-bg: #000000;
+  --color-x-line: #2f3336;
+  --color-x-text: #e7e9ea;
+  --color-x-muted: #71767b;
+  --color-x-blue: #1d9bf0;
+  --color-x-hover: #181818;
+  --color-x-card: #16181c;
+  --color-x-input: #202327;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes arrive {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(59 130 246 / 0); }
+  30% { box-shadow: 0 0 0 4px rgb(59 130 246 / 0.35); }
+}
+
+.animate-arrive {
+  animation: arrive 0.35s ease-out;
+}
+
+.animate-glow {
+  animation: glow 2.2s ease-out 2;
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+}
