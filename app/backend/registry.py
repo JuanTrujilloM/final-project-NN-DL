@@ -50,7 +50,12 @@ class ModelRegistry:
         found = [describe(path) for path in sorted(self.models_root.glob("*/*/config.json"))]
         return {model["id"]: model for model in found if "checkpoints" not in model["path"]}
 
+    # Looks at models/ again, so models copied there later appear without restarting the server.
+    def refresh(self):
+        self.models = self.discover()
+
     def public_models(self):
+        self.refresh()
         return [{k: v for k, v in m.items() if k != "path"} for m in sorted(self.models.values(), key=preference)]
 
     def get(self, model_id):
@@ -62,6 +67,7 @@ class ModelRegistry:
             return self.loaded
 
     def set_active(self, model_id):
+        self.refresh()
         model = self.models.get(model_id)
         if model is None or not model["available"]:
             raise KeyError(model_id)
