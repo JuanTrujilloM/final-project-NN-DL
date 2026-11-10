@@ -1,0 +1,68 @@
+{
+  "traductor": "Helsinki-NLP/opus-mt-tc-big-en-es",
+  "respaldo": "Helsinki-NLP/opus-mt-en-es",
+  "generacion": {
+    "batch_size": 64,
+    "num_beams": 4,
+    "max_input_tokens": 256,
+    "max_new_tokens": 256,
+    "fp16": true
+  },
+  "tiempo_min": 34.85,
+  "gpu": "Tesla T4",
+  "gpu_memoria_max_usada_gb": 4.09,
+  "por_conjunto": [
+    {
+      "conjunto": "train",
+      "tweets": 47671,
+      "sin_texto": 0,
+      "con_respaldo": 1069,
+      "vacio": 0.0,
+      "sin_traducir": 0.01,
+      "longitud": 0.04,
+      "usuarios": 0.88,
+      "repeticion": 0.03,
+      "desconocido": 0.0,
+      "alguna_alerta": 0.94
+    },
+    {
+      "conjunto": "val",
+      "tweets": 6124,
+      "sin_texto": 0,
+      "con_respaldo": 145,
+      "vacio": 0.0,
+      "sin_traducir": 0.0,
+      "longitud": 0.0,
+      "usuarios": 0.96,
+      "repeticion": 0.0,
+      "desconocido": 0.0,
+      "alguna_alerta": 0.96
+    },
+    {
+      "conjunto": "test",
+      "tweets": 10536,
+      "sin_texto": 0,
+      "con_respaldo": 301,
+      "vacio": 0.0,
+      "sin_traducir": 0.02,
+      "longitud": 0.05,
+      "usuarios": 1.0,
+      "repeticion": 0.09,
+      "desconocido": 0.0,
+      "alguna_alerta": 1.14
+    },
+    {
+      "conjunto": "test_intra",
+      "tweets": 11855,
+      "sin_texto": 0,
+      "con_respaldo": 254,
+      "vacio": 0.0,
+      "sin_traducir": 0.0,
+      "longitud": 0.03,
+      "usuarios": 0.99,
+      "repeticion": 0.0,
+      "desconocido": 0.02,
+      "alguna_alerta": 1.03
+    }
+  ]
+}

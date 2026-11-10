@@ -1,10 +1,4 @@
-"""Construcción de los conjuntos del protocolo: split por desastre completo.
-
-Cada evento de HumAID va entero a train, val o test (según configs/protocolo.yaml), así que
-ningún desastre aparece en dos conjuntos. Los splits internos de HumAID solo se usan para la
-referencia optimista `test_intra` (el `test` interno de los eventos de train).
-Chile 2014 (español nativo) y el set colombiano son evaluación externa aparte.
-"""
+# Event-level split: each disaster goes whole to train, val or test.
 
 import re
 from pathlib import Path
@@ -20,7 +14,7 @@ from humaid.labels import CRISISBENCH_TO_HUMAID
 ROLES = ("train", "val", "test")
 EVENT_TYPES = {"wildfire": "fire", "earthquake": "earthquake", "flood": "flood", "hurricane": "hurricane",
                "cyclone": "hurricane"}
-# Un texto de `role` se elimina si tiene un duplicado o casi-duplicado en alguno de estos conjuntos.
+# Sets each role is checked against for duplicates.
 LEAK_SOURCES = {"train": ["val", "test", "test_intra"], "val": ["test"]}
 
 PLACEHOLDER_RE = re.compile(r"httpurl|@user")
@@ -57,8 +51,8 @@ def load_humaid_events(root):
     return df
 
 
+# Fails if an event is in two sets, is missing, or does not exist in the data.
 def validate_assignment(assignment, events):
-    """Falla si un evento está en dos conjuntos, falta, o no existe en los datos."""
     seen = {}
     problems = []
     for role in ROLES:
@@ -84,14 +78,14 @@ def assign_roles(df, assignment, intra_event_reference=False):
     return out
 
 
+# Normalized text used to find duplicates.
 def dedup_key(text_clean):
-    """Normalización para comparar textos: minúsculas, sin URLs, menciones ni puntuación."""
     text = PLACEHOLDER_RE.sub(" ", text_clean.lower())
     return SPACE_RE.sub(" ", NON_WORD_RE.sub(" ", text)).strip()
 
 
+# Flags query texts with TF-IDF cosine similarity >= threshold to any reference text.
 def near_duplicate_mask(query, reference, threshold, chunk=500):
-    """Marca los textos de `query` con similitud coseno TF-IDF >= threshold con alguno de `reference`."""
     query, reference = list(query), list(reference)
     mask = np.zeros(len(query), dtype=bool)
     if not query or not reference:
@@ -104,9 +98,8 @@ def near_duplicate_mask(query, reference, threshold, chunk=500):
     return mask
 
 
+# Removes empty texts, duplicates and train/val texts repeated in evaluation sets.
 def remove_leakage(df, threshold=0.75):
-    """Quita textos vacíos, duplicados dentro de cada conjunto y textos de train/val que tengan
-    un duplicado exacto o casi-duplicado en un conjunto de evaluación (ver LEAK_SOURCES)."""
     report = {}
     out = df.assign(key=df["text_clean"].map(dedup_key))
     keep = out["key"].str.len() > 0
@@ -124,8 +117,7 @@ def remove_leakage(df, threshold=0.75):
         report[f"{role}_exactos_en_{'/'.join(sources)}"] = int(exact.sum())
         out = out[~exact]
 
-        # Al quitar textos cambian los pesos TF-IDF y pueden aparecer pares nuevos sobre el
-        # umbral, así que se repite hasta que no quede ninguno.
+        # Repeat, since removing texts changes the TF-IDF weights.
         removed = 0
         while True:
             target = out["role"] == role
@@ -138,8 +130,8 @@ def remove_leakage(df, threshold=0.75):
     return out.drop(columns="key").reset_index(drop=True), report
 
 
+# Returns the classes that fall below the minimum count in each set.
 def check_class_coverage(df, min_per_class):
-    """Devuelve las clases que quedan por debajo del mínimo en cada conjunto."""
     counts = df.pivot_table(index="label", columns="role", values="text_clean", aggfunc="count", fill_value=0)
     labels = sorted(df["label"].unique())
     problems = {}
@@ -156,8 +148,8 @@ def build_humaid(root, humaid_cfg, threshold):
     return remove_leakage(df, threshold)
 
 
+# Chile 2014 in Spanish, used whole as an external test.
 def load_chile_test(crisisbench_root, event, threshold=0.75):
-    """Chile 2014 en español, completo (train+dev+test de CrisisBench) como test externo."""
     rows = []
     for split in ("train", "dev", "test"):
         for r in read_records(Path(crisisbench_root) / "humanitarian" / f"{split}.json"):

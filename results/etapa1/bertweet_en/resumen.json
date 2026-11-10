@@ -1,0 +1,72 @@
+{
+  "nombre": "bertweet_en",
+  "modelo": "vinai/bertweet-base",
+  "mejor_val_f1_macro": 0.7036920702191783,
+  "val_f1_macro_lp": 0.5727981054933754,
+  "epocas_lp": 16,
+  "epocas_ft": 6,
+  "epocas_entrenadas": 22,
+  "parametros": {
+    "total": 134907658,
+    "entrenables": 134907658
+  },
+  "recursos": {
+    "tiempo_entrenamiento_min": 22.81,
+    "plataforma": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "cpu_nucleos": 4,
+    "gpu": "Tesla T4",
+    "gpu_memoria_gb": 15.6,
+    "gpu_memoria_max_usada_gb": 4.1
+  },
+  "hiperparametros": {
+    "max_len": 128,
+    "dropout": 0.1,
+    "batch_size": 32,
+    "lp_lr": 0.001,
+    "lp_epochs": 20,
+    "lp_patience": 3,
+    "lr": 2e-05,
+    "llrd": 0.95,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "epochs": 10,
+    "patience": 3,
+    "clip_grad": 1.0,
+    "class_weights": "sqrt",
+    "amp": true,
+    "model_name": "vinai/bertweet-base",
+    "tokenizer_kwargs": {
+      "normalization": true
+    }
+  },
+  "resultados": {
+    "val": {
+      "f1_macro": 0.7036920702191783,
+      "f1_weighted": 0.7776911215310334,
+      "accuracy": 0.7743305029392554,
+      "n": 6124
+    },
+    "test": {
+      "f1_macro": 0.7259799076785891,
+      "f1_weighted": 0.7711612499457187,
+      "accuracy": 0.761199696279423,
+      "n": 10536
+    },
+    "test_intra": {
+      "f1_macro": 0.7454168047397512,
+      "f1_weighted": 0.7627038774317382,
+      "accuracy": 0.7632222690847743,
+      "n": 11855
+    },
+    "chile_2014": {
+      "f1_macro": 0.07654566598030921,
+      "f1_weighted": 0.08736168095610897,
+      "accuracy": 0.17497850386930353,
+      "n": 2326
+    }
+  },
+  "familia": "bertweet_en",
+  "semilla": 42,
+  "tipo": "fine_tuning"
+}
