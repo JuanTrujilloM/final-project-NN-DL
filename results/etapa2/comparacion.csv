@@ -1,0 +1,3 @@
+modelo,tipo,épocas,minutos,gpu,F1 val,F1 test,F1 test_intra,F1 chile_2014,F1 ponderado val,F1 ponderado test,F1 ponderado test_intra,F1 ponderado chile_2014
+bilstm_bi,desde_cero,9,4.97,Tesla T4,0.6735,0.6674,0.7192,0.3626,0.7466,0.7267,0.7391,0.5124
+xlmr_large_bi,fine_tuning,19,142.69,Tesla T4,0.7233,0.7374,0.749,0.4312,0.7883,0.7757,0.7665,0.5698

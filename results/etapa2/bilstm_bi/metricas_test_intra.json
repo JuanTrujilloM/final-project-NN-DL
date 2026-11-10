@@ -1,0 +1,81 @@
+{
+  "f1_macro": 0.7192245334227289,
+  "f1_weighted": 0.7390657002175401,
+  "accuracy": 0.7439898776887389,
+  "n": 23710,
+  "por_clase": {
+    "caution_and_advice": {
+      "precision": 0.6014652014652014,
+      "recall": 0.6136023916292974,
+      "f1-score": 0.6074731779504254,
+      "support": 1338.0
+    },
+    "displaced_people_and_evacuations": {
+      "precision": 0.8409255242227043,
+      "recall": 0.914308176100629,
+      "f1-score": 0.8760828625235405,
+      "support": 1272.0
+    },
+    "infrastructure_and_utility_damage": {
+      "precision": 0.7356897091022834,
+      "recall": 0.8609077598828697,
+      "f1-score": 0.7933884297520661,
+      "support": 2732.0
+    },
+    "injured_or_dead_people": {
+      "precision": 0.8796220213640099,
+      "recall": 0.9558035714285714,
+      "f1-score": 0.9161317928968763,
+      "support": 2240.0
+    },
+    "missing_or_found_people": {
+      "precision": 0.6835443037974683,
+      "recall": 0.75,
+      "f1-score": 0.7152317880794702,
+      "support": 72.0
+    },
+    "not_humanitarian": {
+      "precision": 0.5717703349282297,
+      "recall": 0.5090521831735889,
+      "f1-score": 0.5385915492957747,
+      "support": 1878.0
+    },
+    "other_relevant_information": {
+      "precision": 0.5984802431610943,
+      "recall": 0.478377065111759,
+      "f1-score": 0.5317310288954902,
+      "support": 4116.0
+    },
+    "requests_or_urgent_needs": {
+      "precision": 0.494281045751634,
+      "recall": 0.657608695652174,
+      "f1-score": 0.5643656716417911,
+      "support": 920.0
+    },
+    "rescue_volunteering_or_donation_effort": {
+      "precision": 0.8278076463560334,
+      "recall": 0.8572533250850604,
+      "f1-score": 0.8422732107582435,
+      "support": 6466.0
+    },
+    "sympathy_and_support": {
+      "precision": 0.8590717299578059,
+      "recall": 0.7608370702541106,
+      "f1-score": 0.8069758224336108,
+      "support": 2676.0
+    },
+    "accuracy": 0.7439898776887389,
+    "macro avg": {
+      "precision": 0.7092657760106466,
+      "recall": 0.735775023831806,
+      "f1-score": 0.7192245334227289,
+      "support": 23710.0
+    },
+    "weighted avg": {
+      "precision": 0.7400775466896221,
+      "recall": 0.7439898776887389,
+      "f1-score": 0.7390657002175401,
+      "support": 23710.0
+    }
+  }
+}
