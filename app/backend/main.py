@@ -129,6 +129,10 @@ async def reclassify():
     return posts
 
 
+# Heartbeat so clients can tell a dead backend from a quiet one, even behind a proxy that keeps the connection open.
+HEARTBEAT_SECONDS = 10
+
+
 @app.get("/api/stream")
 async def stream(request: Request):
     queue = asyncio.Queue()
@@ -139,9 +143,9 @@ async def stream(request: Request):
             yield "retry: 2000\n\n"
             while not await request.is_disconnected():
                 try:
-                    message = await asyncio.wait_for(queue.get(), timeout=15)
+                    message = await asyncio.wait_for(queue.get(), timeout=HEARTBEAT_SECONDS)
                 except asyncio.TimeoutError:
-                    yield ": ping\n\n"
+                    yield "event: ping\ndata: {}\n\n"
                     continue
                 yield f"event: {message['event']}\ndata: {json.dumps(message['data'], ensure_ascii=False)}\n\n"
         finally:
