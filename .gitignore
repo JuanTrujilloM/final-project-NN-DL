@@ -10,7 +10,6 @@ __pycache__/
 data/raw/
 data/interim/
 data/processed/
-data/colombia/
 
 # Training checkpoints and transformer weights (too large for GitHub); BiLSTM weights and model configs are tracked
 models/checkpoints/

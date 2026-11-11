@@ -11,11 +11,12 @@ Esta carpeta **no se sube a git** (ver `.gitignore`): las licencias de HumAID y 
 | `raw/humaid_events/` | HumAID por desastre, tal como se descarga |
 | `raw/crisisbench/` | Subconjunto humanitario de CrisisBench |
 | `raw/humaid_events_translated/` | HumAID traducido al español (salida de `notebooks/traduccion.ipynb`): `train.csv`, `val.csv`, `test.csv`, `test_intra.csv` con las columnas de `humaid_en` más `text_es` y `traductor`; también `cache/`, que permite retomar la traducción si se cae la sesión |
+| `raw/colombia/<fuente>/` | Posts de desastres colombianos anotados a mano, una subcarpeta por fuente (`x/`, `bluesky/`, `reddit/`, ...) y un CSV por evento (mismas columnas en todas: `event`, `tweet_id`, `text_raw`, `label`, ...). `text_raw` es el texto original. No se suben a git: tienen nombres de personas reales |
 | `processed/humaid_en/` | `train.csv`, `val.csv`, `test.csv` (split por desastre completo) y `test_intra.csv` (referencia optimista). Columnas: `event`, `split` (split interno original de HumAID), `tweet_id`, `text_raw`, `label`, `text_clean`, `role` |
 | `processed/chile2014_es/` | `test.csv` con Chile 2014 completo, en español, con etiquetas de HumAID |
+| `processed/colombia_es/` | `test.csv` con todas las fuentes colombianas unidas (sin columna de fuente) y limpias con `clean_tweet`, mismas columnas que Chile 2014. Sale de `scripts/prepare_data.py` cuando hay CSV en `raw/colombia/<fuente>/` |
 | `processed/humaid_es/` | La traducción con el mismo formato y los mismos conjuntos que `humaid_en`: el español va en `text_clean`, `text_raw` conserva el tweet original en inglés y se agrega `traductor` |
 | `processed/bilingue/` | Corpus bilingüe de la etapa 2: `humaid_en` y `humaid_es` juntos en cada conjunto. Columnas: `tweet_id`, `event`, `role`, `lang`, `fuente`, `label`, `text_clean` |
-| `colombia/` | Set colombiano anotado a mano. Antes de guardar texto de tweets, revisar privacidad y términos de uso de X |
 
 ## Traducción y corpus bilingüe (etapa 2)
 

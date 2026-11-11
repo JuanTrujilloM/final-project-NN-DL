@@ -48,6 +48,11 @@ chile:
   repo: QCRI/CrisisBench-all-lang
   event: 2014_chile_earthquake_esp
 
+colombia:
+  # Hand-annotated posts of Colombian disasters, one subfolder per source (x/, bluesky/, reddit/, ...); skipped when empty
+  raw: data/raw/colombia
+  output: colombia_es
+
 translation:
   # Output of notebooks/traduccion.ipynb (Kaggle), turned into data/processed/humaid_es
   raw: data/raw/humaid_events_translated

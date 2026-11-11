@@ -172,6 +172,27 @@ def load_chile_test(crisisbench_root, event, threshold=0.75):
     return df[[c for c in cols if c in df]], report
 
 
+# Hand-annotated posts of Colombian disasters (already in HumAID labels), one subfolder per source.
+# The sources are merged into a single external test with no trace of where each post came from.
+def load_colombia_test(root, threshold=0.75):
+    files = sorted(Path(root).glob("*/*.csv"))
+    df = pd.concat([pd.read_csv(f, dtype={"tweet_id": str}) for f in files], ignore_index=True)
+    report = {"archivos": len(files), "total_anotados": len(df)}
+    valid = {label for label in CRISISBENCH_TO_HUMAID.values() if label}
+    if unknown := sorted(set(df["label"]) - valid):
+        raise ValueError(f"Etiquetas que no son de HumAID: {unknown}")
+    df = df.drop_duplicates("tweet_id").copy()
+    df["text_clean"] = df["text_raw"].map(clean_tweet)
+    df = df[df["text_clean"].str.len() > 0]
+    df["role"] = "external_colombia"
+    df["lang"] = "es"
+    df, leak = remove_leakage(df, threshold)
+    report["duplicados_en_mismo_conjunto"] = leak["duplicados_en_mismo_conjunto"]
+    report["final"] = len(df)
+    cols = ["event", "role", "tweet_id", "text_raw", "text_clean", "label", "lang"]
+    return df[cols], report
+
+
 def class_distribution(df):
     return df.pivot_table(index="label", columns="role", values="text_clean", aggfunc="count", fill_value=0)
 
