@@ -93,7 +93,7 @@ class LoadedModel:
             padded = pad_sequence([torch.tensor(i) for i in ids], batch_first=True, padding_value=self.vocab[PAD])
             logits = self.model(padded, torch.tensor([len(i) for i in ids]))
         else:
-            # Stage 3 models expect their own placeholders (<usr>, @usuario, ...); older models have no text_style.
+            # Adapt the text style to the one used in training
             texts = [adapt_text(text, self.hp.get("text_style")) for text in texts]
             chunks = []
             for start in range(0, len(texts), 16):

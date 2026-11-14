@@ -35,8 +35,7 @@ def describe(config_path):
     }
 
 
-# Default order: bilingual models first (posts can come in English or Spanish), then the latest stage,
-# transformer before BiLSTM.
+# Default model preference: bilingual, later stage, transformer over BiLSTM.
 def preference(model):
     return (model["language"] != "bi", -(model["stage"] or 0), model["kind"] != "transformer")
 
