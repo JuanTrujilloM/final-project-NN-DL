@@ -1,0 +1,4 @@
+candidato,modelo,val_f1_macro,val_f1_macro_lp,minutos
+robertuito,pysentimiento/robertuito-base-uncased,0.7018,0.598,11.93
+bert_colombiano,johnatanebonilla/bert-colombiano-v1,0.699,0.5398,12.77
+bertuit,AIDA-UPM/BERTuit-base,0.6949,0.5342,12.61

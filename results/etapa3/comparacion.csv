@@ -1,0 +1,2 @@
+modelo,tipo,épocas,minutos,gpu,F1 val,F1 test,F1 test_intra,F1 chile_2014,F1 test_en,F1 ponderado val,F1 ponderado test,F1 ponderado test_intra,F1 ponderado chile_2014,F1 ponderado test_en
+robertuito_es,fine_tuning,19,26.47,Tesla T4,0.6954,0.694,0.7356,0.4052,0.6392,0.7678,0.7516,0.7541,0.5567,0.7113
