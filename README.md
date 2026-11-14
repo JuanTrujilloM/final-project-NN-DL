@@ -54,17 +54,35 @@ Los hiperparámetros están en diccionarios dentro del notebook; con `LIMIT = 50
 Las corridas de selección (solo val) quedan en `results/etapa1/seleccion/`. Todo se entrena con la semilla 42. Cada modelo final guarda en `results/etapa1/<modelo>/` las curvas, el historial por época, métricas (F1-macro y ponderado) y matrices de confusión por conjunto, predicciones (sin el texto de los tweets) y un `resumen.json` con hiperparámetros, hardware y tiempo. La tabla comparativa es `results/etapa1/comparacion.csv` (una fila por modelo).
 
 ### Modelos entrenados
-Los modelos finales de cada etapa se guardan en `models/etapa1/` y `models/etapa2/`, una carpeta por modelo, con lo necesario para clasificar textos nuevos sin los notebooks:
+Los modelos finales de cada etapa se guardan en `models/etapa1/`, `models/etapa2/` y `models/etapa3/`, una carpeta por modelo, con lo necesario para clasificar textos nuevos sin los notebooks:
 
 - **BiLSTM** (`bilstm_en`, `bilstm_bi`): `model.pt` (pesos), `vocab.json` y `config.json` (hiperparámetros y orden de las clases).
-- **Transformer** (`<modelo>_en`, `<modelo>_bi`): `model.pt` (pesos del clasificador completo), `encoder/` (configuración del encoder), `tokenizer/` y `config.json`.
+- **Transformer** (`<modelo>_en`, `<modelo>_bi`, `<modelo>_es`): `model.pt` (pesos del clasificador completo), `encoder/` (configuración del encoder), `tokenizer/` y `config.json`.
 
-Kaggle los entrega en `modelos_etapa1.zip` y `modelos_etapa2.zip`. Los BiLSTM se suben al repositorio; los `model.pt` de los Transformers (~1 GB) superan el límite de GitHub y quedan fuera de git (`.gitignore`), así que se comparten aparte. Los checkpoints temporales del entrenamiento van a `models/checkpoints/`, que tampoco se sube.
+Kaggle los entrega en `modelos_etapa1.zip`, `modelos_etapa2.zip` y `modelos_etapa3.zip`. Los BiLSTM se suben al repositorio; los `model.pt` de los Transformers (~1 GB) superan el límite de GitHub y quedan fuera de git (`.gitignore`), así que se comparten aparte. Los checkpoints temporales del entrenamiento van a `models/checkpoints/`, que tampoco se sube.
+
+### Etapa 3: modelos de Twitter en español
+[`notebooks/etapa3.ipynb`](notebooks/etapa3.ipynb) entrena solo con HumAID traducido al español (`data/processed/humaid_es/`) y compara tres modelos preentrenados con tweets en español contra XLM-R large de las etapas 1 y 2 (que no se reentrena). Se corre en Kaggle con GPU, Internet activado y la traducción (`humaid_es.zip`) como input.
+
+- **Candidatos**: BERTuit (`AIDA-UPM/BERTuit-base`), RoBERTuito (`pysentimiento/robertuito-base-uncased`, el modelo base y no el ajustado para sentimiento) y BERT colombiano (`johnatanebonilla/bert-colombiano-v1`).
+- **Preprocesamiento**: cada modelo recibe los marcadores de su preentrenamiento (`adapt_text` en `src/humaid/data/preprocess.py`, que también usa la app): `<usr>`/`<url>` para BERTuit; `@usuario`/`url` y emojis como texto para RoBERTuito y BERT colombiano.
+- **BERTuit** solo publica pesos de TensorFlow, que `transformers` 5 ya no carga; `scripts/convert_bertuit.py` los pasa a PyTorch sin TensorFlow y comprueba que el modelo convertido predice palabras enmascaradas.
+- **Receta**: la de la etapa 1 (mean pooling, LP-FT, LLRD, pesos `sqrt`) con lr 2e-5, el de los modelos base; screening de 3 épocas y el ganador por F1-macro en val con hasta 10 épocas.
+
+Screening (val, F1-macro): RoBERTuito 0,702, BERT colombiano 0,699 y BERTuit 0,695. La diferencia está dentro de lo esperable entre semillas; RoBERTuito fue el mejor en la fase lineal (0,598 frente a ~0,54), es decir, sus representaciones sin ajustar ya separan mejor las clases.
+
+| F1-macro | RoBERTuito (etapa 3, español) | XLM-R large (etapa 2, bilingüe) | XLM-R large (etapa 1, inglés) |
+|---|---|---|---|
+| Chile 2014 | 0,405 | 0,431 | 0,412 |
+| Chile 2014 (ponderado) | 0,557 | 0,570 | 0,554 |
+| Inglés (`test_en` / `test`) | 0,639 | — | 0,740 |
+| Parámetros | 109 M | 560 M | 560 M |
+| Entrenamiento (T4) | 26 min | 143 min | 86 min |
+
+En español nativo (Chile 2014), RoBERTuito no supera a XLM-R large: queda 0,026 por debajo del modelo bilingüe, que además se entrenó con el doble de datos (inglés y español), y prácticamente empata con el de la etapa 1. Lo logra con un modelo 5 veces más pequeño y más rápido de entrenar. Con tweets en inglés pierde unos 0,10 frente a XLM-R, pero no colapsa. Las clases que fallan en Chile (`missing_or_found_people`, `requests_or_urgent_needs`, `displaced_people_and_evacuations`) son las mismas en todos los modelos, lo que apunta a los datos (traducción automática de otros desastres) más que al modelo. Los resultados están en `results/etapa3/`; `val`, `test` y `test_intra` son en español y no se comparan directamente con las etapas anteriores.
 
 ## Extensión al Español y al Contexto Colombiano
 HumAID está compuesto únicamente por tweets en inglés de desastres ocurridos en otros países, mientras que el contexto que nos interesa es el colombiano, donde la información se publica en español y con expresiones, nombres de lugares y formas de reportar propias de la región.
-
-Como parte del proyecto queremos explorar si es posible que el modelo entrenado sobre HumAID llegue a entender tweets en español, y probarlo con tweets de desastres que han ocurrido en Colombia, como el último terremoto. Todavía no tenemos definida la manera de lograrlo pero es una idea que queremos investigar y que dependerá de lo que encontremos sobre los datos disponibles.
 
 ## Aplicación de demostración
 

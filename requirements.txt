@@ -4,6 +4,7 @@ huggingface_hub
 scikit-learn
 torch
 transformers
+h5py
 emoji
 matplotlib
 seaborn

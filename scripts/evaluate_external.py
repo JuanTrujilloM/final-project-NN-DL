@@ -14,6 +14,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
 from app.backend.classifiers import LoadedModel
 
@@ -91,8 +92,9 @@ def main():
 
     for stage, scores in scores_by_stage.items():
         add_to_table(ROOT / "results" / stage / "comparacion.csv", args.name, scores)
-        add_to_table(ROOT / "results" / "etapa2" / "comparacion_etapas.csv", args.name, scores,
-                     stage=int(stage.removeprefix("etapa")))
+        # Each stage from 2 on keeps a table with its models and those of the previous stages.
+        for table in sorted((ROOT / "results").glob("etapa*/comparacion_etapas.csv")):
+            add_to_table(table, args.name, scores, stage=int(stage.removeprefix("etapa")))
     print("Listo. Resultados en results/etapaX/<modelo>/ y columnas nuevas en las tablas de comparación")
 
 
