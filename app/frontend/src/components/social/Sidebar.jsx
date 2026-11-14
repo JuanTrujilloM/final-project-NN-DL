@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Bell, Bookmark, Columns2, Ellipsis, Feather, House, LifeBuoy, Mail, Search, User, Users } from 'lucide-react'
+import { BarChart3, Bell, Bookmark, Columns2, Ellipsis, Feather, House, LifeBuoy, Mail, Search, User, Users } from 'lucide-react'
 import Logo from './Logo'
 import Avatar from './Avatar'
 
@@ -18,6 +18,7 @@ const ITEMS = [
 const VIEWS = [
   { icon: LifeBuoy, label: 'Centro de información', to: '/centro' },
   { icon: Columns2, label: 'Vista demo', to: '/demo' },
+  { icon: BarChart3, label: 'Resultados', to: '/resultados' },
 ]
 
 export default function Sidebar({ compact, onCompose }) {

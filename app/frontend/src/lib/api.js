@@ -14,4 +14,6 @@ export const api = {
   publish: (body) => request('/api/posts', { method: 'POST', body: JSON.stringify(body) }),
   setModel: (model) => request('/api/active-model', { method: 'PUT', body: JSON.stringify({ model }) }),
   reclassify: () => request('/api/reclassify', { method: 'POST' }),
+  results: () => request('/api/results'),
+  resultDetail: (id) => request(`/api/results/model/${id}`),
 }

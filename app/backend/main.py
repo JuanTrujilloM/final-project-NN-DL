@@ -19,6 +19,7 @@ from humaid.data.preprocess import clean_tweet
 
 from .labels import GROUP_OF, GROUPS, LABEL_NAMES
 from .registry import ModelRegistry
+from .results import router as results_router
 
 MODELS_ROOT = Path(os.environ.get("HUMAID_MODEL_DIR", ROOT / "models"))
 DIST = ROOT / "app" / "frontend" / "dist"
@@ -86,6 +87,7 @@ async def lifespan(app):
 
 
 app = FastAPI(title="AlertaNexo API", version="0.2.0", lifespan=lifespan)
+app.include_router(results_router)
 
 
 @app.get("/api/meta")

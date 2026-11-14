@@ -18,14 +18,20 @@ FAMILY_NAMES = {
 LANGUAGE_NAMES = {"en": "solo inglés", "bi": "bilingüe", "es": "solo español"}
 
 
+# Readable name from a folder name such as xlmr_large_bi.
+def display_name(folder_name):
+    family, _, language = folder_name.rpartition("_")
+    return f"{FAMILY_NAMES.get(family, family)} · {LANGUAGE_NAMES.get(language, language)}"
+
+
 def describe(config_path):
     model_dir = config_path.parent
     config = json.loads(config_path.read_text())
     stage = model_dir.parent.name
-    family, _, language = model_dir.name.rpartition("_")
+    language = model_dir.name.rpartition("_")[2]
     return {
         "id": f"{stage}/{model_dir.name}",
-        "name": f"{FAMILY_NAMES.get(family, family)} · {LANGUAGE_NAMES.get(language, language)}",
+        "name": display_name(model_dir.name),
         "stage": int(stage.removeprefix("etapa")) if stage.startswith("etapa") else None,
         "kind": config["tipo"],
         "language": language,

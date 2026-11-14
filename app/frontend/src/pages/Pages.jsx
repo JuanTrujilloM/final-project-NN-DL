@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Cpu, ExternalLink } from 'lucide-react'
 import CenterApp from '../components/center/CenterApp'
+import ResultsApp from '../components/results/ResultsApp'
 import SocialApp from '../components/social/SocialApp'
 import Logo from '../components/social/Logo'
 
@@ -10,6 +11,10 @@ export function SocialPage() {
 
 export function CenterPage() {
   return <div className="h-dvh"><CenterApp /></div>
+}
+
+export function ResultsPage() {
+  return <ResultsApp />
 }
 
 const BAR_H = 44
@@ -29,6 +34,7 @@ export function DemoPage() {
         <div className="ml-auto flex gap-1">
           <Link to="/red" target="_blank" className="flex items-center gap-1 rounded-md px-2 py-1 hover:bg-slate-800">Red social <ExternalLink className="h-3 w-3" /></Link>
           <Link to="/centro" target="_blank" className="flex items-center gap-1 rounded-md px-2 py-1 hover:bg-slate-800">Centro <ExternalLink className="h-3 w-3" /></Link>
+          <Link to="/resultados" target="_blank" className="flex items-center gap-1 rounded-md px-2 py-1 hover:bg-slate-800">Resultados <ExternalLink className="h-3 w-3" /></Link>
         </div>
       </div>
       <div className="flex min-h-0 flex-1">
