@@ -1,0 +1,76 @@
+{
+  "nombre": "bert_colombiano_es",
+  "modelo": "johnatanebonilla/bert-colombiano-v1",
+  "mejor_val_f1_macro": 0.6920403844137979,
+  "val_f1_macro_lp": 0.5398035524231853,
+  "epocas_lp": 15,
+  "epocas_ft": 6,
+  "epocas_entrenadas": 21,
+  "parametros": {
+    "total": 109858570,
+    "entrenables": 109858570
+  },
+  "recursos": {
+    "tiempo_entrenamiento_min": 24.21,
+    "plataforma": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "cpu_nucleos": 4,
+    "gpu": "Tesla T4",
+    "gpu_memoria_gb": 15.6,
+    "gpu_memoria_max_usada_gb": 3.7
+  },
+  "hiperparametros": {
+    "max_len": 128,
+    "dropout": 0.1,
+    "batch_size": 32,
+    "lp_lr": 0.001,
+    "lp_epochs": 20,
+    "lp_patience": 3,
+    "lr": 2e-05,
+    "llrd": 0.95,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "epochs": 10,
+    "patience": 3,
+    "clip_grad": 1.0,
+    "class_weights": "sqrt",
+    "amp": true,
+    "model_name": "johnatanebonilla/bert-colombiano-v1",
+    "text_style": "bert_colombiano"
+  },
+  "resultados": {
+    "val": {
+      "f1_macro": 0.6920403844137979,
+      "f1_weighted": 0.7652407985105355,
+      "accuracy": 0.7655127367733507,
+      "n": 6124
+    },
+    "test": {
+      "f1_macro": 0.6917745324450717,
+      "f1_weighted": 0.7421145940365866,
+      "accuracy": 0.7395596051632498,
+      "n": 10536
+    },
+    "test_intra": {
+      "f1_macro": 0.736514261666708,
+      "f1_weighted": 0.7577281018562564,
+      "accuracy": 0.7620413327709827,
+      "n": 11855
+    },
+    "chile_2014": {
+      "f1_macro": 0.38376875283576395,
+      "f1_weighted": 0.5491880151436624,
+      "accuracy": 0.5318142734307825,
+      "n": 2326
+    },
+    "test_en": {
+      "f1_macro": 0.35100366441177366,
+      "f1_weighted": 0.4328653875347081,
+      "accuracy": 0.42796127562642367,
+      "n": 10536
+    }
+  },
+  "familia": "bert_colombiano_es",
+  "semilla": 42,
+  "tipo": "fine_tuning"
+}
