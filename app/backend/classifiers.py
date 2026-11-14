@@ -7,6 +7,8 @@ import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence, pad_sequence
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 
+from humaid.data.preprocess import adapt_text
+
 # Same tokenizer as the BiLSTM in the training notebooks (GloVe Twitter symbols, lowercase).
 PAD, UNK = "<pad>", "<unk>"
 TOKEN_RE = re.compile(r"<user>|<url>|[a-z0-9áéíóúüñ]+(?:'[a-z]+)?|[^\sa-z0-9áéíóúüñ]")
@@ -91,6 +93,8 @@ class LoadedModel:
             padded = pad_sequence([torch.tensor(i) for i in ids], batch_first=True, padding_value=self.vocab[PAD])
             logits = self.model(padded, torch.tensor([len(i) for i in ids]))
         else:
+            # Stage 3 models expect their own placeholders (<usr>, @usuario, ...); older models have no text_style.
+            texts = [adapt_text(text, self.hp.get("text_style")) for text in texts]
             chunks = []
             for start in range(0, len(texts), 16):
                 enc = self.tokenizer(texts[start:start + 16], truncation=True, max_length=self.hp["max_len"],

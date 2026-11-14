@@ -11,8 +11,11 @@ FAMILY_NAMES = {
     "xlmt_base": "XLM-T",
     "mdeberta_base": "mDeBERTa-v3",
     "bertweet": "BERTweet",
+    "bertuit": "BERTuit",
+    "robertuito": "RoBERTuito",
+    "bert_colombiano": "BERT colombiano",
 }
-LANGUAGE_NAMES = {"en": "solo inglés", "bi": "bilingüe"}
+LANGUAGE_NAMES = {"en": "solo inglés", "bi": "bilingüe", "es": "solo español"}
 
 
 def describe(config_path):
@@ -25,15 +28,17 @@ def describe(config_path):
         "name": f"{FAMILY_NAMES.get(family, family)} · {LANGUAGE_NAMES.get(language, language)}",
         "stage": int(stage.removeprefix("etapa")) if stage.startswith("etapa") else None,
         "kind": config["tipo"],
+        "language": language,
         "val_f1_macro": config.get("mejor_val_f1_macro"),
         "available": (model_dir / "model.pt").is_file(),
         "path": str(model_dir),
     }
 
 
-# Default order: bilingual stage first, transformer before BiLSTM.
+# Default order: bilingual models first (posts can come in English or Spanish), then the latest stage,
+# transformer before BiLSTM.
 def preference(model):
-    return (-(model["stage"] or 0), model["kind"] != "transformer")
+    return (model["language"] != "bi", -(model["stage"] or 0), model["kind"] != "transformer")
 
 
 # Finds the exported models and keeps only the active one in memory (XLM-R large needs ~2 GB of RAM).
